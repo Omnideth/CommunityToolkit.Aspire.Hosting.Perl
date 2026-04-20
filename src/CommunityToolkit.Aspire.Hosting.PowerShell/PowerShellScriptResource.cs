@@ -126,9 +126,21 @@ namespace CommunityToolkit.Aspire.Hosting.PowerShell
             CancellationToken cancellationToken = default)
         {
             scriptLogger.LogInformation("Starting PowerShell script '{ScriptName}'", Name);
-           
+
             Debug.Assert(scriptLogger is not null);
             _scriptLogger = scriptLogger;
+
+            // Aspire's WaitFor on the parent runspace pool doesn't reliably block here, so poll until
+            // the pool has been created AND opened by the parent resource before binding the PowerShell
+            // instance to it. Without this, _ps.RunspacePool can be null (hangs InvokeAsync) or in
+            // 'Opening' state (throws InvalidRunspacePoolStateException).
+            while ((Parent.Pool is null || Parent.Pool.RunspacePoolStateInfo.State != System.Management.Automation.Runspaces.RunspacePoolState.Opened)
+                && !cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken).ConfigureAwait(false);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             Debug.Assert(Parent.Pool is not null);
             _ps.RunspacePool = Parent.Pool;

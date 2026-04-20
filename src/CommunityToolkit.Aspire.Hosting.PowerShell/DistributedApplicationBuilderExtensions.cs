@@ -81,7 +81,9 @@ public static class DistributedApplicationBuilderExtensions
             var poolName = res.Name;
             var poolLogger = loggerService.GetLogger(poolName);
 
-            _ = res.StartAsync(sessionState, notificationService, poolLogger, hostLifetime, ct);
+            // Await pool open so the resource isn't marked Running before the RunspacePool exists.
+            // Otherwise dependent scripts that WaitFor(pool) can race and hit a null Parent.Pool.
+            await res.StartAsync(sessionState, notificationService, poolLogger, hostLifetime, ct);
         });
 
         return poolBuilder;
