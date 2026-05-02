@@ -5,14 +5,7 @@ sudo apt-get update && \
     sudo apt clean -y && \
     sudo rm -rf /var/lib/apt/lists/*
 
-echo Install .NET dev certs
-EXIT_CODE=0
-PARTIAL_TRUST_EXIT_CODE=4 # Exit code 4 indicates "partial trust" per aspnetcore#65391.
-dotnet dev-certs https --trust || EXIT_CODE=$?
-if [ "$EXIT_CODE" -ne 0 ] && [ "$EXIT_CODE" -ne "$PARTIAL_TRUST_EXIT_CODE" ]; then
-  echo "dotnet dev-certs https --trust failed with exit code $EXIT_CODE"
-  exit "$EXIT_CODE"
-fi
+# Note: DNegstad wrote a VS Code extension to do the auto trust for you.  https://github.com/dnegstad/devcontainer-dev-certs
 
 echo Install Aspire
 curl -sSL https://aspire.dev/install.sh | bash
