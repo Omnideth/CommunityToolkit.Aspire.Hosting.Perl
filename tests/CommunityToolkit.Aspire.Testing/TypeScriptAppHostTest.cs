@@ -24,7 +24,7 @@ public static class TypeScriptAppHostTest
         IEnumerable<string>? requiredCommands = null,
         CancellationToken cancellationToken = default)
     {
-        Assert.Skip("Try skipping typescript tests");
+        Assert.Skip("Skipping typescript tests as they are flaky in CI");
         ArgumentException.ThrowIfNullOrWhiteSpace(appHostProject);
         ArgumentException.ThrowIfNullOrWhiteSpace(packageName);
         ArgumentException.ThrowIfNullOrWhiteSpace(exampleName);
