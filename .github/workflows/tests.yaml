@@ -95,6 +95,8 @@ jobs:
           docker-registry: ${{ secrets.CUSTOM_CONTAINER_REGISTRY }}
 
       - name: Verify Docker is running
+        id: verify_docker
+        if: runner.os != 'Windows'
         run: docker info
 
       - name: Build test project
@@ -124,7 +126,7 @@ jobs:
           CUSTOM_CONTAINER_REGISTRY: ${{ secrets.CUSTOM_CONTAINER_REGISTRY }}
 
       - name: Dump docker info
-        if: always()
+        if: always() && steps.verify_docker.outcome == 'success'
         run: |
           docker container ls --all
           docker container ls --all --format json
