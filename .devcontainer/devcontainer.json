@@ -37,6 +37,7 @@
         "GitHub.vscode-pull-request-github",
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
+        "microsoft-aspire.aspire-vscode",
         "vscjava.vscode-java-pack",
         "esbenp.prettier-vscode",
         "redhat.vscode-yaml",

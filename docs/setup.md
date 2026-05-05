@@ -10,7 +10,7 @@ This will run the development environment in a container, install all the necess
 
 > Note: There is an issue with devcontainers in that the ports bound by the DCP (the thing the app host uses to orchestrate behind the scenes) are not exposed to the host machine, meaning that the HTTP endpoints fail to resolve. This can be fixed by manually [forwarding the port](https://code.visualstudio.com/docs/editor/port-forwarding). This is a known issue in Aspire and being tracked for a 9.1 fix 🤞.
 
-> Note: if using the dev container, you will want to install https://github.com/dnegstad/devcontainer-dev-certs
+> Note: if using the dev container, you will want to install [devcontainer dev certs](https://github.com/dnegstad/devcontainer-dev-certs)
 
 ### 🛠️ Manual Setup
 
